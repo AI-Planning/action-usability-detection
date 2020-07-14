@@ -28,18 +28,18 @@ function analyzePlan() {
 function showAnalysis(output) {
 
     var tab_name = 'Analysis (' + (Object.keys(window.tl_analyses).length + 1) + ')';
-    var display_map = {'error': 'unusable', 'ok': 'ok'};
+    var display_map = {'error': '&#10060;', 'ok': '&#10004;'};
 
     window.new_tab(tab_name, function(editor_name) {
         window.tl_analyses[editor_name] = output;
         var plan_html = '';
         plan_html += '<div class=\"plan-display\">\n';
         plan_html += '<h2>Action Usability Detection(<a target=\"_blank\" href=\"https://github.com/QuMuLab/action-reachability-via-deadend-detection/blob/master/README.md\">readme</a>)</h2>\n';
-        plan_html += '<table>\n';
+        plan_html += '<table class="table table-hover"><thead><tr><th>Action</th><th>Usable</th></tr></thead><tbody>\n';
         for (act in output) {
             plan_html += '<tr><td>'+act+'</td><td>'+display_map[output[act]]+'</td></tr>\n';
         }
-        plan_html += '</table>';
+        plan_html += '</tbody></table>';
         $('#' + editor_name).html(plan_html);
     });
 
