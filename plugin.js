@@ -61,7 +61,7 @@ define(function () {
         initialize: function() {
 
             // Add our button to the top menu
-            window.add_menu_button('Action-usability', 'Action-usabilityMenuItem', 'glyphicon-pawn', "chooseFiles('Action-usability')");
+            window.add_menu_button('Action-usability', 'Action-usabilityMenuItem', 'glyphicon-transfer', "chooseFiles('Action-usability')");
 
             // Register this as a user of the file chooser interface
             window.register_file_chooser('Action-usability',
