@@ -13,12 +13,11 @@ function analyzePlan() {
              data: JSON.stringify({"domain": domText, "problem": probText})})
         .done(function (res) {
                 console.log("server sucesses", res)
-                if (res.status === 'ok')
+                if (res.status === 'ok') {
                     window.toastr.success('Analysis complete!');
-                else
+                    showAnalysis(res.result.output);
+                } else
                     window.toastr.error('Problem with the server.');
-
-                showAnalysis(res.result.output);
 
             }).fail(function (res) {
                 window.toastr.error('Error: Malformed URL?');
@@ -29,15 +28,18 @@ function analyzePlan() {
 function showAnalysis(output) {
 
     var tab_name = 'Analysis (' + (Object.keys(window.tl_analyses).length + 1) + ')';
+    var display_map = {'error': 'unusable', 'ok': 'ok'};
 
     window.new_tab(tab_name, function(editor_name) {
         window.tl_analyses[editor_name] = output;
         var plan_html = '';
         plan_html += '<div class=\"plan-display\">\n';
-        plan_html += '<h2>Action-reachability Output (<a target=\"_blank\" href=\"https://github.com/QuMuLab/action-reachability-via-deadend-detection/blob/master/README.md\">readme</a>)</h2>\n';
-        plan_html += '<pre class=\"plan-display-action well\">\n';
-        plan_html += output;
-        plan_html += '</pre>';
+        plan_html += '<h2>Action Usability (<a target=\"_blank\" href=\"https://github.com/QuMuLab/action-reachability-via-deadend-detection/blob/master/README.md\">readme</a>)</h2>\n';
+        plan_html += '<table>\n';
+        for (act in output) {
+            plan_html += '<tr><td>'+act+'</td><td>'+display_map[output[act]]+'</td></tr>\n';
+        }
+        plan_html += '</table>';
         $('#' + editor_name).html(plan_html);
     });
 
@@ -45,24 +47,24 @@ function showAnalysis(output) {
 
 define(function () {
 
-    // Create a store for the Action-reachability analysis done
+    // Create a store for the Action-usability analysis done
     window.tl_analyses = {};
 
     return {
 
-        name: "Action-reachability",
+        name: "Action-usability",
         author: "Christian Muise, Qianyu Zhang",
         email: "christian.muise@gmail.com, qianyu.zhang@queensu.ca",
-        description: "Action reachability via deadend detection in AI planning problems.",
+        description: "Action usability via deadend detection in AI planning problems.",
 
         // This will be called whenever the plugin is loaded or enabled
         initialize: function() {
 
             // Add our button to the top menu
-            window.add_menu_button('Action-reachability', 'Action-reachabilitytMenuItem', 'glyphicon-pawn', "chooseFiles('Action-reachability')");
+            window.add_menu_button('Action-usability', 'Action-usabilityMenuItem', 'glyphicon glyphicon-pawn', "chooseFiles('Action-usability')");
 
             // Register this as a user of the file chooser interface
-            window.register_file_chooser('Action-reachability',
+            window.register_file_chooser('Action-usability',
             {
                 showChoice: function() {
                     window.setup_file_chooser('Analyze', 'Analyze Problem');
@@ -74,7 +76,7 @@ define(function () {
 
         // This is called whenever the plugin is disabled
         disable: function() {
-            window.remove_menu_button('Action-reachabilityMenuItem');
+            window.remove_menu_button('Action-usabilityMenuItem');
         },
 
         save: function() {
