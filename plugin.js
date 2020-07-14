@@ -34,7 +34,7 @@ function showAnalysis(output) {
         window.tl_analyses[editor_name] = output;
         var plan_html = '';
         plan_html += '<div class=\"plan-display\">\n';
-        plan_html += '<h2>Action Usability (<a target=\"_blank\" href=\"https://github.com/QuMuLab/action-reachability-via-deadend-detection/blob/master/README.md\">readme</a>)</h2>\n';
+        plan_html += '<h2>Action Usability Detection(<a target=\"_blank\" href=\"https://github.com/QuMuLab/action-reachability-via-deadend-detection/blob/master/README.md\">readme</a>)</h2>\n';
         plan_html += '<table>\n';
         for (act in output) {
             plan_html += '<tr><td>'+act+'</td><td>'+display_map[output[act]]+'</td></tr>\n';
